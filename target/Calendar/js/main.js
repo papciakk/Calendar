@@ -336,14 +336,6 @@ $(document).ready(function(){
 
 	// ********************************************************
 
-    function getLoadedCalendarByName(name) {
-        $.each(loadedCalendars, function (i, calendar) {
-            if(calendar.name == name) {
-                return calendar;
-            }
-        });
-    }
-
     function initCalendarEvents() {
         var editingCalendar;
 
