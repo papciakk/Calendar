@@ -14,7 +14,7 @@ function serializedCollectionToArray(data) {
 function setDateRange(date) {
     var _date = date.subtract(date.format("e"), 'days');
 
-    if(!date.isSame(current_date_start)) {
+    if (!date.isSame(current_date_start)) {
         current_date_start = moment(_date);
 
         var date_range_str = _date.format("D") + " - " +
@@ -31,7 +31,7 @@ function setDateRange(date) {
 
 function updateCalendar() {
     var datesOfWeek = moment(current_date_start);
-    for(var i=0; i<7; i++) {
+    for (var i = 0; i < 7; i++) {
         showEventsByDay(datesOfWeek.format("YYYY-MM-DD"));
         datesOfWeek.add(1, 'days');
     }
@@ -46,11 +46,11 @@ function calendar(container_class) {
         "</div>"
     );
 
-    for(var j=0; j<7; j++) {
+    for (var j = 0; j < 7; j++) {
         addColumn(j);
     }
 
-    for(var i=0; i<24; i++) {
+    for (var i = 0; i < 24; i++) {
         addHoursRow(i);
     }
 }
@@ -68,7 +68,7 @@ function addHoursRow(h) {
 function addColumn(n) {
     $(".calendar").append("<div class='calendar_column col" + n + "'></div>");
 
-    for(var i=0; i<24; i++) {
+    for (var i = 0; i < 24; i++) {
         addRow(n);
     }
 }
@@ -80,7 +80,6 @@ function addRow(n) {
         "</div>"
     );
 }
-
 
 
 // ********************************************************
@@ -109,7 +108,7 @@ function updateCursorPosition() {
 
 
 function showColorBoxes() {
-    for(var i=0; i<9; i++) {
+    for (var i = 0; i < 9; i++) {
         $("#event_edit_color").append(
             "<label>" +
             "	<input type='radio' name='options' style='margin-right:10px;' id='ev_col" + i + "' autocomplete='off'>" +
@@ -144,7 +143,7 @@ function initModals() {
         locale: 'pl',
         format: 'YYYY-MM-DD',
         defaultDate: moment(),
-        inline:true
+        inline: true
     });
 
 
@@ -169,8 +168,8 @@ function initModals() {
 
     $("#event_edit_delete").click(function () {
         hideEventModal();
-        bootbox.confirm("Czy na pewno chcesz usunąć to wydarzenie?", function(result) {
-            if(result) {
+        bootbox.confirm("Czy na pewno chcesz usunąć to wydarzenie?", function (result) {
+            if (result) {
                 deleteEvent(currentEventID);
             }
         });
@@ -212,7 +211,7 @@ function init() {
 }
 
 
-$(document).ready(function(){
+$(document).ready(function () {
 	calendar("calendar_container");
 	init();
 });

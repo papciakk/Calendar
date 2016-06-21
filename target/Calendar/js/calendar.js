@@ -18,7 +18,7 @@ function updateCalendarList() {
 function getLoadedCalendarByName(name) {
     var cal;
     $.each(loadedCalendars, function (i, calendar) {
-        if(calendar.name == name) {
+        if (calendar.name == name) {
             cal = calendar;
         }
     });
@@ -49,11 +49,11 @@ function editCalendarResource(calendarID) {
 }
 
 function deleteCalendarResource(calendarID) {
-    bootbox.confirm("Czy na pewno chcesz usunąć ten kalendarz? Wszystkie wydarzenie zostaną także usunięte.", function(result) {
-        if(result) {
+    bootbox.confirm("Czy na pewno chcesz usunąć ten kalendarz? Wszystkie wydarzenie zostaną także usunięte.", function (result) {
+        if (result) {
             calendarResource.delete(calendarID, function () {
                 hideCalendarModal();
-                if(showConfirmAlets) {
+                if (showConfirmAlets) {
                     bootbox.alert("Usunięto kalendarz");
                 }
             });
