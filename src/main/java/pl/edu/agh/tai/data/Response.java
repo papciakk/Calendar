@@ -1,4 +1,4 @@
-package pl.edu.agh.tai;
+package pl.edu.agh.tai.data;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

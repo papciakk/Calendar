@@ -22,6 +22,6 @@
 
     <servlet-mapping>
         <servlet-name>pl.edu.agh.tai.Calendar</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 </web-app>

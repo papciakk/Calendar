@@ -1,7 +1,7 @@
-package pl.edu.agh.tai;
+package pl.edu.agh.tai.dao;
 
 import pl.edu.agh.tai.CalendarException;
-import pl.edu.agh.tai.Event;
+import pl.edu.agh.tai.data.Event;
 
 import java.util.ArrayList;
 import java.util.List;

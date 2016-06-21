@@ -1,5 +1,9 @@
 package pl.edu.agh.tai;
 
+import pl.edu.agh.tai.dao.CalendarDAO;
+import pl.edu.agh.tai.data.Calendar;
+import pl.edu.agh.tai.data.Response;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;

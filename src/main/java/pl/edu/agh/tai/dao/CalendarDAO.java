@@ -1,9 +1,21 @@
-package pl.edu.agh.tai;
+package pl.edu.agh.tai.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import pl.edu.agh.tai.data.Calendar;
+import pl.edu.agh.tai.CalendarException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Component
 public class CalendarDAO {
+
+    @Autowired
+    DBConnectionHelper dbConn;
+
     public CalendarDAO() {}
 
     public List<Calendar> getAll() throws CalendarException {

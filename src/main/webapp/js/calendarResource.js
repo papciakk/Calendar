@@ -1,5 +1,5 @@
 var calendarResource = {
-    url_prefix: "/calendars",
+    url_prefix: "/rest/calendars",
 
     getAll: function (ready_func) {
         $.ajax({

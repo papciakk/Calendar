@@ -1,5 +1,5 @@
 var eventResource = {
-    url_prefix: "/",
+    url_prefix: "/rest/",
 
     getById: function (eventId, ready_func) {
         $.ajax({
