@@ -63,14 +63,14 @@ public class CalendarResource {
     }
 
     @DELETE
-    @Path("/{calendar}")
+    @Path("/{calendarID}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteEvent(@PathParam("calendar") String calendarName) {
+    public Response deleteEvent(@PathParam("calendarID") String calendarID) {
 
         Response response = new Response();
 
         try {
-            calendarDAO.delete(calendarName);
+            calendarDAO.delete(calendarID);
             response.setSuccess(true);
         } catch (CalendarException e) {
             response.setSuccess(false);

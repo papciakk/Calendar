@@ -25,7 +25,7 @@ public class CalendarDAO {
         System.out.println("Editing calendar: \n" + calendar);
     }
 
-    public void delete(String calendarName) throws CalendarException {
-        System.out.println("Deleting calendar: " + calendarName);
+    public void delete(String calendarID) throws CalendarException {
+        System.out.println("Deleting calendar with id: " + calendarID);
     }
 }
