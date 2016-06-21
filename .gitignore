@@ -89,3 +89,4 @@ $RECYCLE.BIN/
 .Trash-*
 
 .idea/
+*.iml
