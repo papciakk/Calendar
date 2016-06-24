@@ -4,35 +4,35 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-//@Component
 class DBConnectionHelper {
 
-    private MongoDatabase db;
+    private static MongoDatabase db = null;
 
     DBConnectionHelper() {
     }
 
-    void init() {
+    private static void init() {
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         db = mongoClient.getDatabase("calendar");
     }
 
-    MongoCollection<Document> getCalendarsCol() {
-        return db.getCollection("calendars");
+    static MongoCollection<Document> getCalendarsCol() {
+        return getDb().getCollection("calendars");
     }
 
-    MongoCollection<Document> getUsersCol() {
-        return db.getCollection("users");
+    static MongoCollection<Document> getUsersCol() {
+        return getDb().getCollection("users");
     }
 
-    MongoCollection<Document> getEventsCol() {
-        return db.getCollection("calendars");
+    static MongoCollection<Document> getEventsCol() {
+        return getDb().getCollection("calendars");
     }
 
-    public MongoDatabase getDb() {
+    private static MongoDatabase getDb() {
+        if (db == null) {
+            init();
+        }
         return db;
     }
 }

@@ -4,7 +4,7 @@ var current_date_start;
 var showConfirmAlets = true;
 
 function getCurrentCalendarName() {
-    return loadedCalendars[currentCalendarID];
+    return $("#select_calendar").val();
 }
 
 function serializedCollectionToArray(data) {
@@ -25,7 +25,7 @@ function setDateRange(date) {
 
         $('#date_range_start_picker').data("DateTimePicker").date(current_date_start);
 
-        updateCalendar();
+        //   updateCalendar();
     }
 }
 
@@ -38,7 +38,6 @@ function updateCalendar() {
 }
 
 // ********************************************
-
 function calendar(container_class) {
     $("." + container_class).append(
         "<div class='calendar'>" +
@@ -206,7 +205,6 @@ function init() {
     var date = moment();
     setDateRange(date);
 
-    updateCalendar();
     updateCalendarList();
 }
 

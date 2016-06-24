@@ -6,7 +6,7 @@ function showEventsByDay(date) {
         console.log("Date: " + date);
         console.log(eventArray);
 
-        // TODO: clear old events!
+        // TODO: clear old events html!
         for (var member in loadedEvents) delete loadedEvents[member]; // celar event map
 
         if (eventArray != null) {

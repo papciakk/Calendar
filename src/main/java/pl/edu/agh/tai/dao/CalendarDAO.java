@@ -2,50 +2,44 @@ package pl.edu.agh.tai.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import pl.edu.agh.tai.data.Calendar;
 import pl.edu.agh.tai.CalendarException;
+import pl.edu.agh.tai.data.Calendar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
-
-@Component
 public class CalendarDAO {
-
-    @Autowired
-    DBConnectionHelper dbConn;
 
     public CalendarDAO() {}
 
     public List<Calendar> getAll() throws CalendarException {
-
         List<Calendar> calendars = new ArrayList<>();
 
-        System.out.println(dbConn);
+        try {
+            final MongoCollection<Document> col = DBConnectionHelper.getCalendarsCol();
 
-        final MongoCollection<Document> col = dbConn.getCalendarsCol();
-
-        if(col.count() == 0) {
-            addDefaultCalendar();
-        }
-
-        try(MongoCursor<Document> cur = col.find().iterator()) {
-            while(cur.hasNext()) {
-                Document doc = cur.next();
-
-                Calendar calendar = new Calendar();
-                calendar.setId(doc.getObjectId("_id").toString());
-                calendar.setName(doc.getString("name"));
-
-                calendars.add(calendar);
+            if (col.count() == 0) {
+                addDefaultCalendar();
             }
+
+            try (MongoCursor<Document> cur = col.find().iterator()) {
+                while (cur.hasNext()) {
+                    Document doc = cur.next();
+
+                    Calendar calendar = new Calendar();
+                    calendar.setId(doc.getString("_id"));
+                    calendar.setName(doc.getString("name"));
+
+                    calendars.add(calendar);
+                }
+            }
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
         }
 
         return calendars;
@@ -58,27 +52,61 @@ public class CalendarDAO {
     }
 
     public void add(Calendar calendar) throws CalendarException {
-        calendar.genId();
+        try {
+            calendar.genId();
 
-        final MongoCollection<Document> col = dbConn.getCalendarsCol();
+            final MongoCollection<Document> col = DBConnectionHelper.getCalendarsCol();
 
-        Document doc = new Document("_id", calendar.getId());
-        doc.append("name", calendar.getName());
+            Document doc = new Document("_id", calendar.getId());
+            doc.append("name", calendar.getName());
 
-        col.insertOne(doc);
+            col.insertOne(doc);
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
+        }
     }
 
     public void edit(Calendar calendar) throws CalendarException {
-        final MongoCollection<Document> col = dbConn.getCalendarsCol();
+        final UpdateResult updateResult;
 
-        col.updateOne(new Document("_id", calendar.getId()),
-                new Document("$set", new Document("name", calendar.getName())));
+        try {
+            final MongoCollection<Document> col = DBConnectionHelper.getCalendarsCol();
+
+            updateResult = col.updateOne(new Document("_id", calendar.getId()),
+                    new Document("$set", new Document("name", calendar.getName())));
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
+        }
+
+        if (updateResult.getModifiedCount() < 1) {
+            throw new CalendarException("no calendar with given id");
+        }
     }
 
     public void delete(String calendarID) throws CalendarException {
-        final MongoCollection<Document> col = dbConn.getCalendarsCol();
+        final DeleteResult deleteResult;
 
-        col.deleteOne(eq("_id", calendarID));
+        try {
+            deleteEventsByCalendarId(calendarID);
 
+            final MongoCollection<Document> col = DBConnectionHelper.getCalendarsCol();
+            deleteResult = col.deleteOne(eq("_id", calendarID));
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
+        }
+
+        if (deleteResult.getDeletedCount() < 1) {
+            throw new CalendarException("no calendar with given id");
+        }
+
+    }
+
+    private void deleteEventsByCalendarId(String calendarID) throws CalendarException {
+        try {
+            final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
+            col.deleteMany(eq("calendarId", calendarID));
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
+        }
     }
 }
