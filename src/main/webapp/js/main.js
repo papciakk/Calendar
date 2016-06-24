@@ -25,12 +25,16 @@ function setDateRange(date) {
 
         $('#date_range_start_picker').data("DateTimePicker").date(current_date_start);
 
-        //   updateCalendar();
+        updateCalendar();
     }
 }
 
 function updateCalendar() {
     var datesOfWeek = moment(current_date_start);
+
+    clearVisibleEvents();
+    for (var member in loadedEvents) delete loadedEvents[member]; // celar event map
+
     for (var i = 0; i < 7; i++) {
         showEventsByDay(datesOfWeek.format("YYYY-MM-DD"));
         datesOfWeek.add(1, 'days');
@@ -65,7 +69,14 @@ function addHoursRow(h) {
 }
 
 function addColumn(n) {
-    $(".calendar").append("<div class='calendar_column col" + n + "'></div>");
+    $(".calendar").append("<div class='calendar_column col" + n + "'>" +
+        "<div class='col" + n + "_cont' style='width:100%; float:left;'></div>" +
+        "</div>"
+    );
+
+    $(document).ready(function () {
+        $(".col" + n + "_cont").height($(".calendar").height()-1);
+    });
 
     for (var i = 0; i < 24; i++) {
         addRow(n);

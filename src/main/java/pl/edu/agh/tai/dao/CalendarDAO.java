@@ -78,7 +78,7 @@ public class CalendarDAO {
             throw new CalendarException(e.getMessage());
         }
 
-        if (updateResult.getModifiedCount() < 1) {
+        if (updateResult.getMatchedCount() < 1) {
             throw new CalendarException("no calendar with given id");
         }
     }

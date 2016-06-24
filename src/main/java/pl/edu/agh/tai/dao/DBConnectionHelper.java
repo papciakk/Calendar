@@ -26,7 +26,7 @@ class DBConnectionHelper {
     }
 
     static MongoCollection<Document> getEventsCol() {
-        return getDb().getCollection("calendars");
+        return getDb().getCollection("events");
     }
 
     private static MongoDatabase getDb() {

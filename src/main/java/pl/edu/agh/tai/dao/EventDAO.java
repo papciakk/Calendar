@@ -1,5 +1,7 @@
 package pl.edu.agh.tai.dao;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import pl.edu.agh.tai.CalendarException;
@@ -8,23 +10,69 @@ import pl.edu.agh.tai.data.Event;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 public class EventDAO {
     public EventDAO() {}
 
-    public Event getEventById(String calendarName, String eventID) throws CalendarException {
-
-
-        //col.find(and(eq("_id", eventID), eq("")));
-
-        return new Event("1", "Ala1", "2015-05-21", "10:20", "12:53", "Ala ma kota2", 2);
+    private Event docToEvent(Document eventDoc) {
+        final Event event = new Event();
+        event.setId(eventDoc.getString("_id"));
+        event.setColor(eventDoc.getInteger("color"));
+        event.setDate(eventDoc.getString("date"));
+        event.setEndTime(eventDoc.getString("endTime"));
+        event.setStartTime(eventDoc.getString("startTime"));
+        event.setInfo(eventDoc.getString("info"));
+        event.setTitle(eventDoc.getString("title"));
+        return event;
     }
-	
-	public List<Event> getEventsByDate(String calendarName, String date) throws CalendarException {
-        List<Event> events = new ArrayList<>();
-        events.add(new Event("2", "pffffyyyyff", "2015-05-21", "7:20", "9:53", "Ala ma ff", 2));
-        events.add(new Event("1", "Ala1", "2015-05-21", "10:20", "12:53", "Ala ma kota2", 2));
+
+    private Document eventToDoc(Event event, String calendarId) {
+        final Document doc = new Document("_id", event.getId());
+        doc.append("title", event.getTitle());
+        doc.append("date", event.getDate());
+        doc.append("startTime", event.getStartTime());
+        doc.append("endTime", event.getEndTime());
+        doc.append("info", event.getInfo());
+        doc.append("color", event.getColor());
+        doc.append("calendarId", calendarId);
+        return doc;
+    }
+
+    private String getCalendarIdByName(String calendarName) throws CalendarException {
+        final Document calendar = DBConnectionHelper.getCalendarsCol().find(eq("name", calendarName)).first();
+        if (calendar == null) {
+            throw new CalendarException("No calendar with name " + calendarName);
+        }
+        return calendar.getString("_id");
+    }
+
+    public Event getEventById(String calendarName, String eventID) throws CalendarException {
+        final String calendarId = getCalendarIdByName(calendarName);
+        final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
+
+        BasicDBObject query = new BasicDBObject("_id", eventID);
+        query.append("calendarId", calendarId);
+        final Document eventDoc = col.find(query).first();
+
+        return docToEvent(eventDoc);
+    }
+
+    public List<Event> getEventsByDate(String calendarName, String date) throws CalendarException {
+        final List<Event> events = new ArrayList<>();
+
+        final String calendarId = getCalendarIdByName(calendarName);
+        final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
+
+        final BasicDBObject query = new BasicDBObject("calendarId", calendarId);
+        query.append("date", date);
+
+        final FindIterable<Document> eventDocs = col.find(query);
+        for(Document eventDoc : eventDocs) {
+            final Event event = docToEvent(eventDoc);
+            events.add(event);
+        }
 
         return events;
 	}
@@ -34,18 +82,9 @@ public class EventDAO {
             event.genId();
 
             final String calendarId = getCalendarIdByName(calendarName);
-
             final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
 
-            Document doc = new Document("_id", event.getId());
-            doc.append("title", event.getTitle());
-            doc.append("date", event.getDate());
-            doc.append("startTime", event.getStartTime());
-            doc.append("endTime", event.getEndTime());
-            doc.append("info", event.getInfo());
-            doc.append("color", event.getColor());
-            doc.append("calendarId", calendarId);
-
+            final Document doc = eventToDoc(event, calendarId);
             col.insertOne(doc);
         } catch (Exception e) {
             throw new CalendarException(e.getMessage());
@@ -53,18 +92,25 @@ public class EventDAO {
     }
 
     public void editEvent(String calendarName, Event event) throws CalendarException {
-        System.out.println("Editing event: \n" + event);
+        try {
+            final String calendarId = getCalendarIdByName(calendarName);
+            final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
+
+            final Document doc = eventToDoc(event, calendarId);
+
+            col.replaceOne(eq("_id", event.getId()), doc);
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
+        }
     }
 
     public void deleteEvent(String calendarName, String eventID) throws CalendarException {
-        System.out.println("Deleting event " + eventID);
-    }
-
-    private String getCalendarIdByName(String calendarName) throws CalendarException {
-        final Document calendar = DBConnectionHelper.getCalendarsCol().find(eq("name", calendarName)).first();
-        if (calendar == null) {
-            throw new CalendarException("No calendar with name " + calendarName);
+        try {
+            final String calendarId = getCalendarIdByName(calendarName);
+            final MongoCollection<Document> col = DBConnectionHelper.getEventsCol();
+            col.deleteMany(and(eq("calendarId", calendarId), eq("_id", eventID)));
+        } catch (Exception e) {
+            throw new CalendarException(e.getMessage());
         }
-        return calendar.getString("_id");
     }
 }
