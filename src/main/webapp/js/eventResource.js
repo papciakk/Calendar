@@ -17,6 +17,7 @@ var eventResource = {
     },
 
     getByDate: function (date, ready_func) {
+        if (getCurrentCalendarName() == null) return;
         $.ajax({
             type: 'GET',
             url: this.url_prefix + getCurrentCalendarName() + "/event/date/" + date,
