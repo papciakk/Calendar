@@ -4,25 +4,52 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd">
 
-    <security:http
+    <!--<security:http
         authentication-manager-ref="authenticationManager"
         create-session="stateless"
         entry-point-ref="basicAuthenticationEntryPoint"
     >
 
-        <security:intercept-url method="GET" pattern="/**" access="isAnonymous()" />
-        <security:intercept-url method="PUT" pattern="/**" access="isAnonymous()" />
-        <security:intercept-url method="POST" pattern="/**" access="isAnonymous()" />
-        <security:intercept-url method="DELETE" pattern="/**" access="isAnonymous()" />
-        <!--<security:intercept-url pattern="/rest/**" access="isAnonymous()"/>-->
+        <security:intercept-url method="GET" pattern="/**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url method="PUT" pattern="/**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url method="POST" pattern="/**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url method="DELETE" pattern="/**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url pattern="/rest/**" access="isAnonymous()"/>
+    </security:http>-->
+
+    <!-- Rest authentication entry point configuration -->
+    <security:http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
+        <security:intercept-url pattern="/**" method="DELETE" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/**" method="GET" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/**" method="POST" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/**" method="PUT" access="hasRole('ROLE_USER')"/>
+        <security:form-login authentication-success-handler-ref="mySuccessHandler"
+                             authentication-failure-handler-ref="myFailureHandler"/>
+
+        <security:logout/>
     </security:http>
 
+    <beans:bean id="restAuthenticationEntryPoint" class="pl.edu.agh.tai.security.RestAuthenticationEntryPoint"/>
+
+    <!-- Connect the custom authentication success handler -->
+    <beans:bean id="mySuccessHandler"
+                class="pl.edu.agh.tai.security.RestAuthenticationSuccessHandler"/>
+    <!-- Using default failure handler -->
+    <beans:bean id="myFailureHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+
     <security:authentication-manager id="authenticationManager">
-        <security:authentication-provider user-service-ref="userDetailsService"/>
+        <!--<security:authentication-provider user-service-ref="userDetailsService"/>-->
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+                <security:user name="user" password="user" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
     </security:authentication-manager>
 
-    <beans:bean id="userDetailsService" class="pl.edu.agh.tai.security.MongoUserDetailsService"/>
-    <beans:bean id="basicAuthenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint" />
+    <!--<beans:bean id="userDetailsService" class="pl.edu.agh.tai.security.MongoUserDetailsService"/>
+    <beans:bean id="basicAuthenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint" />-->
 
 
     <!--<security:authentication-manager>
