@@ -19,14 +19,16 @@
 
     <!-- Rest authentication entry point configuration -->
     <security:http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
-        <security:intercept-url pattern="/**" method="DELETE" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/**" method="GET" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/**" method="POST" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/**" method="PUT" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/rest/**" method="DELETE" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/rest/**" method="GET" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/rest/**" method="POST" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/rest/**" method="PUT" access="hasRole('ROLE_USER')"/>
+
         <security:form-login authentication-success-handler-ref="mySuccessHandler"
                              authentication-failure-handler-ref="myFailureHandler"/>
 
-        <security:logout/>
+        <security:logout delete-cookies="JSESSIONID"/>
+        <security:csrf disabled="true" />
     </security:http>
 
     <beans:bean id="restAuthenticationEntryPoint" class="pl.edu.agh.tai.security.RestAuthenticationEntryPoint"/>
