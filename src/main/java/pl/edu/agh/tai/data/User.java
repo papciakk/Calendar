@@ -1,16 +1,22 @@
 package pl.edu.agh.tai.data;
 
+import org.bson.types.ObjectId;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class User {
+    private String id;
     private String username;
+    private String password;
 
     public User() {
     }
 
-    public User(String username) {
+    public User(String id, String username, String password) {
+        this.id = id;
         this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -19,5 +25,26 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        // TODO: hasing
+        this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void genId() {
+        this.id = new ObjectId().toString();
     }
 }

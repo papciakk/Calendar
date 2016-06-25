@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-class DBConnectionHelper {
+public class DBConnectionHelper {
 
     private static MongoDatabase db = null;
 
@@ -17,15 +17,15 @@ class DBConnectionHelper {
         db = mongoClient.getDatabase("calendar");
     }
 
-    static MongoCollection<Document> getCalendarsCol() {
+    public static MongoCollection<Document> getCalendarsCol() {
         return getDb().getCollection("calendars");
     }
 
-    static MongoCollection<Document> getUsersCol() {
+    public static MongoCollection<Document> getUsersCol() {
         return getDb().getCollection("users");
     }
 
-    static MongoCollection<Document> getEventsCol() {
+    public static MongoCollection<Document> getEventsCol() {
         return getDb().getCollection("events");
     }
 
