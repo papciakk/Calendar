@@ -212,6 +212,7 @@ function init() {
     initModals();
     initChangeDateRangeEvents();
     initCalendarEvents();
+    initUserEvents();
 
     var date = moment();
     setDateRange(date);

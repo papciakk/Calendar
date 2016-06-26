@@ -1,6 +1,4 @@
 var userResource = {
-    url_prefix: "/rest/user",
-
     login: function (username, password, ready_func, badcred_func) {
         $.ajax({
             type: 'POST',
@@ -44,37 +42,6 @@ var userResource = {
                     ready_func();
                 } else {
                     alert("register: " + response.message);
-                }
-            }
-        });
-    },
-
-    update: function (calendar, ready_func) {
-        $.ajax({
-            type: 'PUT',
-            contentType: 'application/json',
-            url: this.url_prefix,
-            dataType: "json",
-            data: JSON.stringify(calendar),
-            success: function (response) {
-                if (response.success) {
-                    ready_func();
-                } else {
-                    alert("calendarResource.update: " + response.message);
-                }
-            }
-        });
-    },
-
-    delete: function (calendarID, ready_func) {
-        $.ajax({
-            type: 'DELETE',
-            url: this.url_prefix + "/" + calendarID,
-            success: function (response) {
-                if (response.success) {
-                    ready_func();
-                } else {
-                    alert("calendarResource.delete: " + response.message);
                 }
             }
         });
