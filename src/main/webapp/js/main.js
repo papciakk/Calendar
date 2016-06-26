@@ -214,9 +214,17 @@ function init() {
     initCalendarEvents();
     initUserEvents();
 
+    //showUserButtons();
+
     var date = moment();
     setDateRange(date);
 
+    updateCalendarList();
+}
+
+function refresh() {
+    var date = moment();
+    setDateRange(date);
     updateCalendarList();
 }
 

@@ -19,10 +19,14 @@
 
     <!-- Rest authentication entry point configuration -->
     <security:http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
-        <security:intercept-url pattern="/rest/**" method="DELETE" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/rest/**" method="GET" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/rest/**" method="POST" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/rest/**" method="PUT" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/login" method="POST" access="permitAll()"/>
+        <security:intercept-url pattern="/logout" method="POST" access="permitAll()"/>
+        <security:intercept-url pattern="/rest/user" method="POST" access="permitAll()"/>
+        <security:intercept-url pattern="/rest/user" method="GET" access="permitAll()"/>
+        <security:intercept-url pattern="/rest/**" method="DELETE" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/rest/**" method="GET" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/rest/**" method="POST" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/rest/**" method="PUT" access="isAuthenticated()"/>
 
         <security:form-login authentication-success-handler-ref="mySuccessHandler"
                              authentication-failure-handler-ref="myFailureHandler"/>

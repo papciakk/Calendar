@@ -2,10 +2,8 @@ var userResource = {
     login: function (username, password, ready_func, badcred_func) {
         $.ajax({
             type: 'POST',
-            contentType: 'application/json',
             url: "/login",
-            dataType: "json",
-            data: JSON.stringify({"username": username, "password": password}),
+            data: {"username": username, "password": password},
             success: function () {
                 ready_func();
             },
@@ -24,13 +22,13 @@ var userResource = {
             url: "/logout",
             dataType: "json",
             data: "",
-            success: function () {
+            complete: function () {
                 ready_func();
             }
         });
     },
 
-    register: function (username, password, ready_func) {
+    register: function (username, password, ready_func, duplicate_func) {
         $.ajax({
             type: 'POST',
             contentType: 'application/json',
@@ -41,7 +39,27 @@ var userResource = {
                 if (response.success) {
                     ready_func();
                 } else {
-                    alert("register: " + response.message);
+                    if (response.errorCode == 1) {
+                        duplicate_func();
+                    } else {
+                        alert("register: " + response.message);
+                    }
+                }
+            }
+        });
+    },
+
+    isLoggedIn: function (ready_func) {
+        $.ajax({
+            type: 'GET',
+            url: "/rest/user",
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    var loggedIn = response.object;
+                    ready_func(loggedIn);
+                } else {
+                    alert("isLoggedIn: " + response.message);
                 }
             }
         });
