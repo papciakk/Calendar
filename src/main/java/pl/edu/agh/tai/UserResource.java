@@ -41,7 +41,6 @@ public class UserResource {
             if (userDuplicate != null) {
                 response.setSuccess(false);
                 response.setErrorCode(1);
-                response.setMessage("User already exists");
             } else {
                 userDAO.add(user);
                 response.setSuccess(true);
