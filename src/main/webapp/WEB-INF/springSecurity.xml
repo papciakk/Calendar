@@ -45,17 +45,17 @@
                 class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
 
     <security:authentication-manager id="authenticationManager">
-        <!--<security:authentication-provider user-service-ref="userDetailsService"/>-->
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
-                <security:user name="user" password="user" authorities="ROLE_USER"/>
-            </security:user-service>
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="userDetailsService"/>
+        <!--<security:authentication-provider>
+        <security:user-service>
+            <security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+            <security:user name="user" password="user" authorities="ROLE_USER"/>
+        </security:user-service>
+    </security:authentication-provider>-->
     </security:authentication-manager>
 
-    <!--<beans:bean id="userDetailsService" class="pl.edu.agh.tai.security.MongoUserDetailsService"/>
-    <beans:bean id="basicAuthenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint" />-->
+    <beans:bean id="userDetailsService" class="pl.edu.agh.tai.security.MongoUserDetailsService"/>
+<!--<beans:bean id="basicAuthenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint" />-->
 
 
     <!--<security:authentication-manager>
