@@ -204,22 +204,23 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="login_modal_label">Logowanie</h4>
             </div>
-            <div class="modal-body">
-                <form>
+            <form id="form_login" role="form">
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="login_username" class="control-label">Nazwa użytkownika:</label>
-                        <input type="text" class="form-control" id="login_username"/>
+                        <input type="text" class="form-control" id="login_username" name="login_username"/>
                     </div>
                     <div class="form-group">
                         <label for="login_password" class="control-label">Hasło:</label>
-                        <input type="password" class="form-control" id="login_password"/>
+                        <input type="password" class="form-control" id="login_password" name="login_password"/>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                <button id="btn_modal_login" type="button" class="btn btn-primary">Zaloguj</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                    <button id="btn_modal_login" type="submit" class="btn btn-primary">Zaloguj</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -234,26 +235,28 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="register_modal_label">Rejestracja</h4>
             </div>
-            <div class="modal-body">
-                <form>
+            <form id="form_register" role="form">
+                <div class="modal-body">
+
                     <div class="form-group">
                         <label for="register_username" class="control-label">Nazwa użytkownika:</label>
-                        <input type="text" class="form-control" id="register_username"/>
+                        <input type="text" class="form-control" id="register_username" name="register_username"/>
                     </div>
                     <div class="form-group">
                         <label for="register_password" class="control-label">Hasło:</label>
-                        <input type="password" class="form-control" id="register_password"/>
+                        <input type="password" class="form-control" id="register_password" name="register_password"/>
                     </div>
                     <div class="form-group">
                         <label for="register_password_repeat" class="control-label">Powtórz hasło:</label>
-                        <input type="password" class="form-control" id="register_password_repeat"/>
+                        <input type="password" class="form-control" id="register_password_repeat" name="register_password_repeat"/>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                <button id="btn_modal_register" type="button" class="btn btn-success">Zarejestruj</button>
-            </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                    <button id="btn_modal_register" type="submit" class="btn btn-success">Zarejestruj</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

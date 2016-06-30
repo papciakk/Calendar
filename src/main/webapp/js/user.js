@@ -1,4 +1,3 @@
-// TODO: fix if have time
 function showUserButtons() {
     userResource.isLoggedIn(function (loggedIn) {
         var buttonsHTML = "";
@@ -21,54 +20,53 @@ function validateRegisterInputs() {
     return true;
 }
 
-function initUserEvents() {
-    $("#btn_modal_login").click(function () {
+function doLogin() {
+    if (!validateLoginInputs()) return;
 
-        if (!validateLoginInputs()) return;
+    var username = $("#login_username").val();
+    var password = $("#login_password").val();
 
-        var username = $("#login_username").val();
-        var password = $("#login_password").val();
+    $('#login_modal').modal('hide');
 
-        $('#login_modal').modal('hide');
+    userResource.login(
+        username,
+        password,
+        function () {
+            if (showConfirmAlets) {
+                bootbox.alert("Zalogowano jako " + username);
+            }
+            //location.reload();
+            refresh();
+        },
+        function () {
+            bootbox.alert("Niepoprawny login lub hasło");
+        }
+    );
+}
 
-        userResource.login(
-            username,
-            password,
-            function () {
-                if (showConfirmAlets) {
-                    bootbox.alert("Zalogowano jako " + username);
-                }
-                //location.reload();
-                refresh();
+function doRegister() {
+    if (!validateRegisterInputs()) return;
+
+    var username = $("#register_username").val();
+    var password = $("#register_password").val();
+    var passwordr = $("#register_password_repeat").val();
+
+    $('#register_modal').modal('hide');
+
+    if (password == passwordr) {
+        userResource.register(username, password, function () {
+                bootbox.alert("Rejestracja przebiegła pomyślnie. Teraz możesz się zalogować.");
             },
             function () {
-                bootbox.alert("Niepoprawny login lub hasło");
-            }
-        );
-    });
-
-    $("#btn_modal_register").click(function () {
-        if (!validateRegisterInputs()) return;
-
-        var username = $("#register_username").val();
-        var password = $("#register_password").val();
-        var passwordr = $("#register_password_repeat").val();
-
-        $('#register_modal').modal('hide');
-
-        if (password == passwordr) {
-            userResource.register(username, password, function () {
-                    bootbox.alert("Rejestracja przebiegła pomyślnie. Teraz możesz się zalogować.");
-                },
-                function () {
-                    bootbox.alert("Użytkownik o nazwie \"" + username + "\" już istnieje");
+                bootbox.alert("Użytkownik o nazwie \"" + username + "\" już istnieje");
             });
-        } else {
-            bootbox.alert("Podane hasła nie są takie same");
-        }
+    } else {
+        bootbox.alert("Podane hasła nie są takie same");
+    }
 
-    });
+}
 
+function initUserEvents() {
     $("#btn_logout").click(function () {
         userResource.logout(function () {
             if (showConfirmAlets) {

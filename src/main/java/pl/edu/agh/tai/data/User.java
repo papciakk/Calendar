@@ -32,7 +32,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        // TODO: hasing
         this.password = password;
     }
 

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import pl.edu.agh.tai.CalendarException;
+import pl.edu.agh.tai.main.CalendarException;
 import pl.edu.agh.tai.dao.UserDAO;
 
 import java.util.Collection;

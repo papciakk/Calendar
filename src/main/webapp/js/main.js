@@ -161,8 +161,7 @@ function initModals() {
 
     $("#btn_add_event").click(function () {
         currentEventID = "0";
-
-        // TODO: actual hours and date instead of ""
+        
         $("#event_edit_event").val("");
         $("#event_edit_date").val("");
         $("#event_edit_start").val("");
@@ -215,6 +214,9 @@ function initUserModalEvents() {
 
 function initFormValidators() {
     $('#form_calendar').bootstrapValidator({
+        framework: 'bootstrap',
+        live: 'enabled',
+        excluded: 'disabled',
         fields: {
             calendar_name: {
                 validators: {
@@ -237,9 +239,16 @@ function initFormValidators() {
         editCalendarResource(currentCalendarID);
         e.preventDefault();
     });
+    $('#calendar_modal').on('hidden.bs.modal', function(){
+        $(this).removeData('bs.modal');
+        $('#form_calendar').bootstrapValidator('resetForm', true);
+    });
 
 
     $('#form_event').bootstrapValidator({
+        framework: 'bootstrap',
+        live: 'enabled',
+        excluded: 'disabled',
         fields: {
             event_title: {
                 validators: {
@@ -279,6 +288,125 @@ function initFormValidators() {
         updateEvent(currentEventID);
         e.preventDefault();
     });
+    $('#event_modal').on('hidden.bs.modal', function(){
+        $(this).removeData('bs.modal');
+        $('#form_event').bootstrapValidator('resetForm', true);
+    });
+
+
+    $('#form_login').bootstrapValidator({
+        framework: 'bootstrap',
+        live: 'enabled',
+        excluded: 'disabled',
+        fields: {
+            login_username: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj login'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: "Login musi mieć od 6 do 30 znaków"
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: 'Login zawiera nieprawidłowe znaki'
+                    }
+                }
+            },
+            login_password: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj hasło'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: "Hasło musi mieć od 6 do 30 znaków"
+                    },
+                    regexp: {
+                        regexp: /^[^'"]+$/,
+                        message: 'Hasło zawiera nieprawidłowe znaki'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {
+        doLogin();
+        e.preventDefault();
+    });
+    $('#login_modal').on('hidden.bs.modal', function(){
+        $(this).removeData('bs.modal');
+        $('#form_login').bootstrapValidator('resetForm', true);
+    });
+
+    $('#form_register').bootstrapValidator({
+        framework: 'bootstrap',
+        live: 'enabled',
+        excluded: 'disabled',
+        fields: {
+            register_username: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj login'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: "Login musi mieć od 6 do 30 znaków"
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: 'Login może zawierać tylko litery, cyfry i znak podkreślenia'
+                    }
+                }
+            },
+            register_password: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj hasło'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: "Hasło musi mieć od 6 do 30 znaków"
+                    },
+                    regexp: {
+                        regexp: /^[^'"]+$/,
+                        message: 'Hasło zawiera nieprawidłowe znaki'
+                    },
+                    different: {
+                        field: 'register_username',
+                        message: 'Hasło nie może być takie same jak login'
+                    }
+                }
+            },
+            register_password_repeat: {
+                validators: {
+                    notEmpty: {
+                        message: 'Powtórz hasło'
+                    },
+                    regexp: {
+                        regexp: /^[^'"]+$/,
+                        message: 'Pole zawiera nieprawidłowe znaki'
+                    },
+                    identical: {
+                        field: 'register_password',
+                        message: 'Hasła nie zgadzają się'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {
+        doRegister();
+        e.preventDefault();
+    });
+    $('#register_modal').on('hidden.bs.modal', function(){
+        $(this).removeData('bs.modal');
+        $('#form_register').bootstrapValidator('resetForm', true);
+    });
+
 }
 
 function init() {
@@ -308,6 +436,6 @@ function refresh() {
 }
 
 $(document).ready(function () {
-	calendar("calendar_container");
-	init();
+    calendar("calendar_container");
+    init();
 });

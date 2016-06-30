@@ -22,18 +22,13 @@ function validateEventEditInputs() {
     return true;
 }
 
-function updateEvent(eventID) {
-    // TODO: add input checking
-    if (!validateEventEditInputs()) return;
-
+function updateEvent(eventID) {s;
     var event = {};
     event.title = $("#event_edit_event").val();
     event.date = $("#event_edit_date").val();
     event.startTime = $("#event_edit_start").val();
     event.endTime = $("#event_edit_end").val();
     event.info = $("#event_edit_info").val();
-    event.color = 5;
-    // TODO: selected color
 
     if (eventID == "0") {
         eventResource.add(event, function () {

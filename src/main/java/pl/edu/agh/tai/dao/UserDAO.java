@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
-import pl.edu.agh.tai.CalendarException;
+import pl.edu.agh.tai.main.CalendarException;
 import pl.edu.agh.tai.data.User;
 
 import static com.mongodb.client.model.Filters.eq;

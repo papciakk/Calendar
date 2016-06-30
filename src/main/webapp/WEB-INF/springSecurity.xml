@@ -33,31 +33,7 @@
 
     <security:authentication-manager id="authenticationManager">
         <security:authentication-provider user-service-ref="userDetailsService"/>
-        <!--<security:authentication-provider>
-        <security:user-service>
-            <security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
-            <security:user name="user" password="user" authorities="ROLE_USER"/>
-        </security:user-service>
-    </security:authentication-provider>-->
     </security:authentication-manager>
 
     <beans:bean id="userDetailsService" class="pl.edu.agh.tai.security.MongoUserDetailsService"/>
-<!--<beans:bean id="basicAuthenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint" />-->
-
-
-    <!--<security:authentication-manager>
-        <security:authentication-provider>
-            <security:password-encoder ref="bcryptPasswordEncoder" />
-            <security:jdbc-user-service
-                    data-source-ref="dataSource"
-                    users-by-username-query="select username, password, enabled from users where username=?"
-                    authorities-by-username-query="select username, authority from authorities where username=?  " />
-        </security:authentication-provider>
-    </security:authentication-manager>
-
-    <beans:bean id="bcryptPasswordEncoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <beans:constructor-arg name="strength" value="10" />
-    </beans:bean>-->
-
 </beans:beans>

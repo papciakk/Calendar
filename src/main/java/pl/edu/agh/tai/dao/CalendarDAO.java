@@ -6,7 +6,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
-import pl.edu.agh.tai.CalendarException;
+import pl.edu.agh.tai.main.CalendarException;
 import pl.edu.agh.tai.data.Calendar;
 import pl.edu.agh.tai.security.CurrentUser;
 

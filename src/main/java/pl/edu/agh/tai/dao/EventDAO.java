@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import pl.edu.agh.tai.CalendarException;
+import pl.edu.agh.tai.main.CalendarException;
 import pl.edu.agh.tai.data.Event;
 
 import java.util.ArrayList;
