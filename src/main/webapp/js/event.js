@@ -22,7 +22,7 @@ function validateEventEditInputs() {
     return true;
 }
 
-function updateEvent(eventID) {s;
+function updateEvent(eventID) {
     var event = {};
     event.title = $("#event_edit_event").val();
     event.date = $("#event_edit_date").val();
