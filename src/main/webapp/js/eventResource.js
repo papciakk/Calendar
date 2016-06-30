@@ -12,6 +12,11 @@ var eventResource = {
                 } else {
                     alert("getEventResourceById: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     },
@@ -28,6 +33,11 @@ var eventResource = {
                     ready_func(eventList);
                 } else {
                     alert("getEventsResourceByDate: " + response.message);
+                }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
                 }
             }
         });
@@ -46,6 +56,11 @@ var eventResource = {
                 } else {
                     alert("addEventResource: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     },
@@ -63,6 +78,11 @@ var eventResource = {
                 } else {
                     alert("updateEventResource: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     },
@@ -77,8 +97,12 @@ var eventResource = {
                 } else {
                     alert("deleteEventResource: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     }
 };
-

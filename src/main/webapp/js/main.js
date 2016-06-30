@@ -159,10 +159,6 @@ function initModals() {
 
     // ****************************************************************
 
-    $("#event_edit_save").click(function () {
-        updateEvent(currentEventID);
-    });
-
     $("#btn_add_event").click(function () {
         currentEventID = "0";
 
@@ -204,6 +200,87 @@ function initChangeDateRangeEvents() {
     });
 }
 
+function initUserModalEvents() {
+    $("#login_modal").on("shown.bs.modal", function () {
+        $("#login_username").val("");
+        $("#login_password").val("");
+    });
+
+    $("#register_modal").on("shown.bs.modal", function () {
+        $("#register_username").val("");
+        $("#register_password").val("");
+        $("#register_password_repeat").val("");
+    });
+}
+
+function initFormValidators() {
+    $('#form_calendar').bootstrapValidator({
+        fields: {
+            calendar_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj nazwę kalendarza'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 20,
+                        message: 'Nazwa kalendarza musi mieć długość od 3 do 20 znaków'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_]+$/,
+                        message: 'Nazwa kalendarza może zawierać tylko litery, cyfry i znak podkreślenia'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {
+        editCalendarResource(currentCalendarID);
+        e.preventDefault();
+    });
+
+
+    $('#form_event').bootstrapValidator({
+        fields: {
+            event_title: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj tytuł wydarzenia'
+                    },
+                    regexp: {
+                        regexp: /^[^'"]+$/,
+                        message: 'Tutuł wydarzenia zawiera nieprawidłowe znaki'
+                    }
+                }
+            },
+            event_date: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj datę wydarzenia'
+                    }
+                }
+            },
+            event_start: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj godzinę rozpoczęcia'
+                    }
+                }
+            },
+            event_end: {
+                validators: {
+                    notEmpty: {
+                        message: 'Podaj godzinę zakończenia'
+                    }
+                }
+            }
+
+        }
+    }).on('success.form.bv', function (e) {
+        updateEvent(currentEventID);
+        e.preventDefault();
+    });
+}
+
 function init() {
     bootbox.setLocale("pl");
 
@@ -213,6 +290,8 @@ function init() {
     initChangeDateRangeEvents();
     initCalendarEvents();
     initUserEvents();
+    initUserModalEvents();
+    initFormValidators();
 
     //showUserButtons();
 
@@ -227,7 +306,6 @@ function refresh() {
     setDateRange(date);
     updateCalendarList();
 }
-
 
 $(document).ready(function () {
 	calendar("calendar_container");

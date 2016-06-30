@@ -76,15 +76,19 @@ function initCalendarEvents() {
     });
 
     $("#btn_edit_calendar").click(function () {
-        currentCalendarID = getLoadedCalendarByName($("#select_calendar").val()).id;
-        $("#calendar_edit_delete").show();
-        $("#calendar_name").val($("#select_calendar").val());
-        editingCalendar = true;
+        var calendar = getLoadedCalendarByName($("#select_calendar").val());
+        if (calendar) {
+            currentCalendarID = calendar.id;
+            $("#calendar_edit_delete").show();
+            $("#calendar_name").val($("#select_calendar").val());
+            editingCalendar = true;
+        }
     });
 
-    $("#calendar_edit_save").click(function () {
+    /*$("#calendar_edit_save").click(function () {
         editCalendarResource(currentCalendarID);
-    });
+     //return false;
+     });*/
 
     $("#calendar_edit_delete").click(function () {
         deleteCalendarResource(currentCalendarID);

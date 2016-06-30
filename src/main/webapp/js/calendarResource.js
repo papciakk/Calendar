@@ -13,6 +13,11 @@ var calendarResource = {
                 } else {
                     alert("calendarResource.getAll: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     },
@@ -29,6 +34,11 @@ var calendarResource = {
                     ready_func();
                 } else {
                     alert("calendarResource.add: " + response.message);
+                }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
                 }
             }
         });
@@ -47,6 +57,11 @@ var calendarResource = {
                 } else {
                     alert("calendarResource.update: " + response.message);
                 }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
+                }
             }
         });
     },
@@ -60,6 +75,11 @@ var calendarResource = {
                     ready_func();
                 } else {
                     alert("calendarResource.delete: " + response.message);
+                }
+            },
+            statusCode: {
+                401: function () {
+                    $('#login_modal').modal('show');
                 }
             }
         });

@@ -37,10 +37,6 @@ public class CalendarDAO {
             final String currentUser = CurrentUser.getName();
 
             try (MongoCursor<Document> cur = col.find(new BasicDBObject("userID", currentUser)).iterator()) {
-                if (!cur.hasNext()) {
-                    addDefaultCalendar();
-                }
-
                 while (cur.hasNext()) {
                     Document doc = cur.next();
 
@@ -56,12 +52,6 @@ public class CalendarDAO {
         }
 
         return calendars;
-    }
-
-    private void addDefaultCalendar() throws CalendarException {
-        Calendar calendar = new Calendar();
-        calendar.setName("Kalendarz bez nazwy");
-        add(calendar);
     }
 
     public void add(Calendar calendar) throws CalendarException {
