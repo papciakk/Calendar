@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kalendarz</title>
+
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-datetimepicker.min.css">
+
+    <link rel="stylesheet" href="css/lib/bootstrapValidator.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="js/lib/html5shiv.min.js"></script>
+    <script src="js/lib/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+
+
+<div style="width:100%; height:100%; position:relative; overflow:hidden;">
+    <div style="width:100%; height:52px;">
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header" style="width:100%;">
+                    <div class="navbar-brand">
+                        <span class="glyphicon glyphicon-calendar" style="margin-right:5px"></span>
+                        <span style="color:black">Kalendarz</span>
+                    </div>
+
+                    <div class="btn-group pull-left" style="margin-top:8px;" role="group">
+                        <button id="btn_previous_week" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </button>
+                        <button id="btn_next_week" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>
+                    </div>
+
+                    <div class="navbar-text pull-left" style="vertical-align:center; margin-left:20px;font-size:1.25em;"
+                         id="date_range"></div>
+
+                    <div id="user_buttons_cont" class="btn-group pull-right" style="margin-top:8px;" role="group">
+                        <button id='btn_register' type='button' class='btn btn-primary' data-toggle='modal'
+                                data-target='#register_modal'>Zarejestruj
+                        </button>
+                        <button id='btn_login' type='button' class='btn btn-default' data-toggle='modal'
+                                data-target='#login_modal'>Zaloguj
+                        </button>
+                        <button id='btn_logout' type='button' class='btn btn-default'>Wyloguj</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </nav>
+
+    </div>
+    <div style="width:100%; height:100%; position:absolute; left:0; top:52px; bottom:0;">
+
+        <!-- CALENDAR CONTAINER -->
+        <div style="float:left;padding:15px;">
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="date_range_start_picker"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-top:solid 1px lightgrey; width:160px; margin-top:20px; margin-bottom:20px;"></div>
+
+                <div class="form-group">
+                    <label for="select_calendar">Wybierz kalendarz:</label>
+                    <select id="select_calendar" class="form-control" style="width:160px;">
+                    </select>
+                    <div class="btn-group-vertical" style="width:160px; margin-top:15px;">
+                        <button id="btn_add_calendar" type="button" class="btn btn-primary" data-toggle='modal'
+                                data-target='#calendar_modal'>Dodaj kalendarz
+                        </button>
+                        <button id="btn_edit_calendar" type="button" class="btn" data-toggle='modal'
+                                data-target='#calendar_modal'>Edytuj kalendarz
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="calendar_container"
+             style="float:left; position:absolute; left:200px; top:0; bottom:52px; right:0; overflow-y:scroll;">
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- EVENT EDIT CALENDAR -->
+<div style="margin:0 auto; max-width:700px;" class="modal fade" id="calendar_modal" tabindex="-1" role="dialog"
+     aria-labelledby="login_modal_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="calendar_modal_label">Kalendarz</h4>
+            </div>
+            <form id="form_calendar" role="form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="calendar_name" class="control-label">Nazwa kalendarza:</label>
+                        <input type="text" class="form-control" name="calendar_name" id="calendar_name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button id="calendar_edit_delete" type="button" class="btn btn-danger pull-left">Usuń
+                            kalendarz
+                        </button>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-primary pull-right">Zapisz</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- EVENT EDIT DIALOG -->
+<div style="margin:0 auto; max-width:700px;" class="modal fade" id="event_modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Wydarzenie</h4>
+            </div>
+            <form id="form_event" role="form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="event_edit_event" class="control-label">Wydarzenie:</label>
+                        <input class="form-control" id="event_edit_event" name="event_title"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_edit_date_picker" class="control-label">Data:</label>
+                        <div class='input-group date' id='event_edit_date_picker'>
+                            <input type='text' class="form-control" id="event_edit_date" name="event_date"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_edit_start_time_picker" class="control-label">Godzina rozpoczęcia:</label>
+                        <div class='input-group date' id='event_edit_start_time_picker'>
+                            <input type='text' class="form-control" id="event_edit_start" name="event_start"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_edit_end_time_picker" class="control-label">Godzina zakończenia:</label>
+                        <div class='input-group date' id='event_edit_end_time_picker'>
+                            <input type='text' class="form-control" id="event_edit_end" name="event_end"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_edit_info" class="control-label">Dodatkowe informacje:</label>
+                        <textarea class="form-control" id="event_edit_info" name="event_info"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="event_edit_delete" type="button" class="btn btn-danger pull-left">Usuń wydarzenie
+                    </button>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" id="event_edit_save" class="btn btn-primary pull-right">Zapisz</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- LOGIN DIALOG -->
+<div style="margin:0 auto; max-width:700px;" class="modal fade" id="login_modal" tabindex="-1" role="dialog"
+     aria-labelledby="login_modal_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="login_modal_label">Logowanie</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="login_username" class="control-label">Nazwa użytkownika:</label>
+                        <input type="text" class="form-control" id="login_username"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="login_password" class="control-label">Hasło:</label>
+                        <input type="password" class="form-control" id="login_password"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                <button id="btn_modal_login" type="button" class="btn btn-primary">Zaloguj</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- REGISTER DIALOG -->
+<div style="margin:0 auto; max-width:700px;" class="modal fade" id="register_modal" tabindex="-1" role="dialog"
+     aria-labelledby="register_modal_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="register_modal_label">Rejestracja</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="register_username" class="control-label">Nazwa użytkownika:</label>
+                        <input type="text" class="form-control" id="register_username"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_password" class="control-label">Hasło:</label>
+                        <input type="password" class="form-control" id="register_password"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_password_repeat" class="control-label">Powtórz hasło:</label>
+                        <input type="password" class="form-control" id="register_password_repeat"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                <button id="btn_modal_register" type="button" class="btn btn-success">Zarejestruj</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="btn_add_event" class='add_event_btn' data-toggle='modal' data-target='#event_modal' data-id='-1'>+</button>
+
+
+<!-- libs -->
+<script src="js/lib/jquery.min.js"></script>
+
+<script src="js/lib/bootstrap.min.js"></script>
+
+<script src="js/lib/moment.min.js"></script>
+<script src="js/lib/moment-pl.js"></script>
+
+<script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="js/lib/bootbox.min.js"></script>
+
+<script src="js/lib/bootstrapValidator.min.js"></script>
+<script src="js/lib/bootstrapValidator-pl.js"></script>
+
+<!-- calendar -->
+<script src="js/main.js"></script>
+<script src="js/eventResource.js"></script>
+<script src="js/calendarResource.js"></script>
+<script src="js/userResource.js"></script>
+<script src="js/event.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/user.js"></script>
+
+</body>
+</html>

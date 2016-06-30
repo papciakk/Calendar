@@ -1,0 +1,16 @@
+pl\edu\agh\tai\security\MongoUserDetailsService.class
+pl\edu\agh\tai\dao\DBConnectionHelper.class
+pl\edu\agh\tai\dao\UserDAO.class
+pl\edu\agh\tai\data\Calendar.class
+pl\edu\agh\tai\security\RestAuthenticationEntryPoint.class
+pl\edu\agh\tai\CalendarException.class
+pl\edu\agh\tai\dao\CalendarDAO.class
+pl\edu\agh\tai\data\Response.class
+pl\edu\agh\tai\security\userDetailsService.class
+pl\edu\agh\tai\EventResource.class
+pl\edu\agh\tai\security\RestAuthenticationSuccessHandler.class
+pl\edu\agh\tai\UserResource.class
+pl\edu\agh\tai\CalendarResource.class
+pl\edu\agh\tai\data\Event.class
+pl\edu\agh\tai\dao\EventDAO.class
+pl\edu\agh\tai\data\User.class
